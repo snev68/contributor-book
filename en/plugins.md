@@ -27,8 +27,8 @@ Let's create our project. For this example, we'll create a simple `len` command 
 First off, we'll create our plugin:
 
 ```
-> cargo new nu_plugin_dec
-> cd new_plugin_dec
+> cargo new nu_plugin_len
+> cd new_plugin_len
 ```
 
 Next, we'll add `nu` to the list of dependencies to the Cargo.toml directory.  At the bottom of the new Cargo.toml file, add this new dependency on the `nu` crate:
@@ -228,3 +228,109 @@ Once we have finished our plugin, to use it all we need to do is install it.  On
 > nu
 ```
 
+## Creating a plugin (in Python)
+
+We can also create plugins in other programming languages. In this section, we'll write the same `len` plugin in Python.
+
+First, let's look at the full plugin:
+
+```python
+#!/usr/bin/python
+import json
+import fileinput
+import sys
+
+def print_good_response(response):
+    json_response = {"jsonrpc": "2.0", "method": "response", "params": {"Ok": response}}
+    print(json.dumps(json_response))
+    sys.stdout.flush()
+
+def get_length(string_value):
+    string_len = len(string_value["item"]["Primitive"]["String"])
+    int_item = {"Primitive": {"Int": string_len}}
+    int_value = string_value
+    int_value["item"] = int_item
+    return int_value
+
+for line in fileinput.input():
+    x = json.loads(line)
+    if "method" in x.keys() and x["method"] == "config":
+        config = {"name": "len", "usage": "Return the length of a string", "positional": [], "named": {}, "is_filter": True}
+        print_good_response(config)
+        break
+    elif "method" in x.keys() and x["method"] == "begin_filter":
+        print_good_response([])
+    elif "method" in x.keys() and x["method"] == "filter":
+        int_item = get_length(x["params"])
+        print_good_response([{"Ok": {"Value": int_item}}])
+    elif "method" in x.keys() and x["method"] == "end_filter":
+        print_good_response([])
+        break
+    else:
+        break
+```
+
+Note: there are ways to make the python more robust, but here we've left it simple to help with explanations.
+
+Let's look at how this plugin works, from the bottom to the top:
+
+```python
+for line in fileinput.input():
+    x = json.loads(line)
+    if "method" in x.keys() and x["method"] == "config":
+        config = {"name": "len", "usage": "Return the length of a string", "positional": [], "named": {}, "is_filter": True}
+        print_good_response(config)
+        break
+    elif "method" in x.keys() and x["method"] == "begin_filter":
+        print_good_response([])
+    elif "method" in x.keys() and x["method"] == "filter":
+        int_item = get_length(x["params"])
+        print_good_response([{"Ok": {"Value": int_item}}])
+    elif "method" in x.keys() and x["method"] == "end_filter":
+        print_good_response([])
+        break
+    else:
+        break
+```
+
+For this plugin, we have to serve to basic roles: responding to a request for the plugin configuration and doing the actual filtering. This code acts as our main loop, responding to messages from Nu by doing some work and then returning a response. Each JSON message is sent to the plugin on a single line, so we need only to read the line and then parse the json it contains.
+
+From there, we look at what method is being invoked. For this plugin, there are four methods we care about: config, begin_filter, filter, and end_filter.  When we're sent a 'config' request, we respond with the signature of this plugin, which is a bit of information to tell Nu how the command should be called. Once sent, we break out of the loop so the plugin can exit and be later called when filtering begins.
+
+The other three methods -- begin_filter, filter, and end_filter -- all work together to do the work of filtering the data coming in. As this plugin will work 1-to-1 with each bit of data, turning strings into their string lengths, we do most of our work in the `filter` method. The 'end_filter' method here tells us it's time for the plugin to shut down, so we go ahead and break out of the loop.
+
+```python
+def get_length(string_value):
+    string_len = len(string_value["item"]["Primitive"]["String"])
+    int_item = {"Primitive": {"Int": string_len}}
+    int_value = string_value
+    int_value["item"] = int_item
+    return int_value
+```
+
+The work of filtering is doing by the `get_length` function. Here, we assume we're given strings (we could make this more robust in the future and return errors if we were not), and then we extract the string we're given. From there, we measure the length of the string and create a new `Int` value for that length.
+
+Finally, we use the same item we were given and replace the payload with this new Int. We do this to reuse the metadata that was passed to us with the string, though this is an optional step. We could have instead opted to create new metadata and passed that out instead.
+
+```python
+def print_good_response(response):
+    json_response = {"jsonrpc": "2.0", "method": "response", "params": {"Ok": response}}
+    print(json.dumps(json_response))
+    sys.stdout.flush()
+```
+
+Each response from the plugin back to Nu is also a json message that is sent on a single line. We convert the response to json and send it out with this helper function.
+
+```python
+import json
+import fileinput
+import sys
+```
+
+All of this takes a few imports to accomplish, so we make sure to include them.
+
+```python
+#!/usr/bin/python
+```
+
+Finally, to make it easier to run our Python, we make this file executable (using something like `chmod +x nu_plugin_len`) and add the path to our python at the top. This trick works for Unix-based platforms, for Windows we would need to create an .exe or .bat file that would invoke the python code for us.
