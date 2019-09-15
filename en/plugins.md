@@ -235,15 +235,17 @@ We can also create plugins in other programming languages. In this section, we'l
 First, let's look at the full plugin:
 
 ```python
-#!/usr/bin/python
+#!/usr/bin/python3
 import json
 import fileinput
 import sys
+
 
 def print_good_response(response):
     json_response = {"jsonrpc": "2.0", "method": "response", "params": {"Ok": response}}
     print(json.dumps(json_response))
     sys.stdout.flush()
+
 
 def get_length(string_value):
     string_len = len(string_value["item"]["Primitive"]["String"])
@@ -252,18 +254,20 @@ def get_length(string_value):
     int_value["item"] = int_item
     return int_value
 
+
 for line in fileinput.input():
     x = json.loads(line)
-    if "method" in x.keys() and x["method"] == "config":
+    method = x.get("method", None)
+    if method == "config":
         config = {"name": "len", "usage": "Return the length of a string", "positional": [], "named": {}, "is_filter": True}
         print_good_response(config)
         break
-    elif "method" in x.keys() and x["method"] == "begin_filter":
+    elif method == "begin_filter":
         print_good_response([])
-    elif "method" in x.keys() and x["method"] == "filter":
+    elif method == "filter":
         int_item = get_length(x["params"])
         print_good_response([{"Ok": {"Value": int_item}}])
-    elif "method" in x.keys() and x["method"] == "end_filter":
+    elif method == "end_filter":
         print_good_response([])
         break
     else:
@@ -277,16 +281,17 @@ Let's look at how this plugin works, from the bottom to the top:
 ```python
 for line in fileinput.input():
     x = json.loads(line)
-    if "method" in x.keys() and x["method"] == "config":
+    method = x.get("method", None)
+    if method == "config":
         config = {"name": "len", "usage": "Return the length of a string", "positional": [], "named": {}, "is_filter": True}
         print_good_response(config)
         break
-    elif "method" in x.keys() and x["method"] == "begin_filter":
+    elif method == "begin_filter":
         print_good_response([])
-    elif "method" in x.keys() and x["method"] == "filter":
+    elif method == "filter":
         int_item = get_length(x["params"])
         print_good_response([{"Ok": {"Value": int_item}}])
-    elif "method" in x.keys() and x["method"] == "end_filter":
+    elif method == "end_filter":
         print_good_response([])
         break
     else:
@@ -330,7 +335,16 @@ import sys
 All of this takes a few imports to accomplish, so we make sure to include them.
 
 ```python
-#!/usr/bin/python
+#!/usr/bin/python3
 ```
 
 Finally, to make it easier to run our Python, we make this file executable (using something like `chmod +x nu_plugin_len`) and add the path to our python at the top. This trick works for Unix-based platforms, for Windows we would need to create an .exe or .bat file that would invoke the python code for us.
+
+We are using Python 3 because Python 2 will not be maintained past 2020. However script works accordingly with Python 2 and with Python 3.
+Just change the first line into: 
+
+```python
+#!/usr/bin/python
+```
+
+and you are good to go.
