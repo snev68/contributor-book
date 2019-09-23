@@ -5,6 +5,7 @@ The goals of this handbook are to help developers understand how Nu is designed 
 The current draft includes:
 
 * [Introduction](introduction.md)
+* [Philosophy](philosophy.md)
 * [Values](values.md)
 * [Commands](commands.md)
 * [Streams](streams.md)
