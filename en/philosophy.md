@@ -18,3 +18,5 @@ Nu's core value is that working in a shell should be fun. To support this, we be
 
 ## Basic Design
 
+The core of the Nu design is the data model. Commands largely follow in service to making it easy to create data, to work with data, and to view data. One of the visible pieces of this work is the pipeline, which borrows heavily from the original Unix ideas of connecting simple programs together into more complex commands. Nu takes this Unix philosophy and extends it from only strings to the wider data set that is more common in modern programming languages.
+
