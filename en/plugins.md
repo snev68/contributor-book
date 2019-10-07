@@ -35,7 +35,7 @@ Next, we'll add `nu` to the list of dependencies to the Cargo.toml directory.  A
 
 ```
 [dependencies]
-nu = "0.2.0"
+nu = "~0"
 ```
 
 With this, we can open up src/main.rs and create our plugin.
