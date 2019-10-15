@@ -6,11 +6,9 @@ Though the metadata that is tracked is still in its early days, we expect to exp
 
 Currently, there are two pieces of metadata tracked on each value:
 
-## Origin
+## Anchor
 
-Origin represents the location that the value came from originally. If the value was loaded from a file, it will be the filename. If it was loaded from a Url, it will be the url, and so on.
-
-To save on space, and to keep metadata Copy-able, the origin is stored as a UUID. This identifer points to a lookup table where the UUID can be translated into the full origin.
+Anchor represents the location that the value came from originally. If the value was loaded from a file, it will be the filename. If it was loaded from a Url, it will be the url, and so on.
 
 ## Span
 
