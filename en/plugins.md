@@ -28,7 +28,7 @@ First off, we'll create our plugin:
 
 ```
 > cargo new nu_plugin_len
-> cd new_plugin_len
+> cd nu_plugin_len
 ```
 
 Next, we'll add `nu` to the list of dependencies to the Cargo.toml directory.  At the bottom of the new Cargo.toml file, add this new dependency on the `nu` crate:
