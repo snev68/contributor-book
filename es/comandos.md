@@ -1,4 +1,11 @@
-# Comandos
+---
+layout: content
+title: Comandos
+prev: Filosofía
+next: Metadatos
+link_prev: /es/filosofia.html
+link_next: /es/metadatos.html
+---
 
 Los comandos son los bloques de construcción para las tuberías (pipeline) en Nu. Realizan la acción de la tubería, ya sea creando datos, cambiando datos mientras fluye desde entradas y salidas, o viendo los datos una vez que salen de la tubería. Hay dos tipos de comandos: comandos internos, son aquellos contruídos para ejecución interna de Nu, y comandos externos, comandos que se encuentra fuera de Nu y se comunican con `stdin` / `stdout` de estilo Unix estándar.
 

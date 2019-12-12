@@ -1,4 +1,11 @@
-# Values
+---
+layout: content
+title: Values
+prev: Philosophy
+next: Commands
+link_prev: /en/philosophy.html
+link_next: /en/commands.html
+---
 
 A Value is the basic datatype in Nu. Currently, it covers the following possible value types:
 

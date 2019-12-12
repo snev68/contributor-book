@@ -1,4 +1,11 @@
-# Philosophy
+---
+layout: content
+title: Philosophy
+prev: Introduction
+next: Values
+link_prev: /en/introduction.html
+link_next: /en/values.html
+---
 
 ## Core Values
 

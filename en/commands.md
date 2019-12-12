@@ -1,4 +1,11 @@
-# Commands
+---
+layout: content
+title: Commands
+prev: Values
+next: Streams
+link_prev: /en/values.html
+link_next: /en/streams.html
+---
 
 Commands are the building blocks for pipelines in Nu. They do the action of the pipeline, whether creating data, changing data as it flows from inputs to outputs, or viewing data once it as exited the pipeline. There are two types of commands: internal commands, those commands built to run inside of Nu, and external commands, commands that are outside of Nu and communicate with standard Unix-style `stdin`/`stdout`.
 

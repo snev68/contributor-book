@@ -1,4 +1,11 @@
-# Filosofía
+---
+layout: content
+title: Filosofia
+prev: Introducción
+next: Comandos
+link_prev: /es/introduccion.html
+link_next: /es/comandos.html
+---
 
 ## Valores Fundamentales
 

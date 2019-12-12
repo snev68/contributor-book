@@ -1,0 +1,38 @@
+<nav>
+    <span style="cursor:pointer;color:#51cd28" onclick="openNav()">&#9776;</span>
+    <a href="{{ '/' | relative_url }}">Contributer Book</a>
+    <a class="{% if include.current == 'Other Books' %} active {% endif %}" href="{{ '/books.html' | relative_url }}">Books</a>
+    <div class="right">
+        <a href="https://www.nushell.sh" class="button"><span class="no-mobile">Visit our </span>Website</a>
+    </div>
+</nav>
+
+<div id="Sidenav" class="sidenav">
+        English
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/en/introduction.html">Introduction</a>
+        <a href="/en/philosophy.html">Philosophy</a>
+        <a href="/en/values.html">Values</a>
+        <a href="/en/commands.html">Commands</a>
+        <a href="/en/streams.html">Streams</a>
+        <a href="/en/metadata.html">Metadata</a>
+        <a href="/en/plugins.html">Plugins</a>
+        <a href="/en/shells.html">Shells</a>
+        Español
+        <a href="/es/introduccion.html">Introducción</a>
+        <a href="/es/filosofia.html">Filosofía</a>
+        <a href="/es/comandos.html">Comandos</a>
+        <a href="/es/metadatos.html">Metadatos</a>
+</div>
+
+<script>
+        function openNav() {
+          document.getElementById("Sidenav").style.width = "220px";
+          document.getElementById("main").style.marginLeft = "220px";
+        }
+  
+        function closeNav() {
+          document.getElementById("Sidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft = "0";
+        }
+      </script>
