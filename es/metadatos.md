@@ -1,4 +1,11 @@
-# Metadatos
+---
+layout: content
+title: Metadatos
+prev: Comandos
+next: FIN
+link_prev: /es/comandos.html
+link_next: /
+---
 
 Todos los valores que fluyen dentro y fuera de los comandos en Nu están etiquetadas con metadatos. Lo encontrarás comúnmente alrededor del código como `Tagged<Value>`
 

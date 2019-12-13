@@ -1,4 +1,11 @@
-# Shells
+---
+layout: content
+title: Shells
+prev: Plugins
+next: END
+link_prev: /en/plugins.html
+link_next: /
+---
 
 Perhaps a bit unique to Nu is the concept of `shells`, though the idea of working in multiple places at the same time in a shell is fairly common (via pushd/popd, screen, and more). What perhaps makes Nu a little different is that its `shells` concept is both multiple platform and it works both on the filesystem and inside of values.
 

@@ -1,0 +1,38 @@
+<nav>
+    <span style="cursor:pointer;color:#51cd28" onclick="openNav()">&#9776;</span>
+    <a href="{{ '/' | relative_url }}">Contributer Book</a>
+    <a class="{% if include.current == 'Other Books' %} active {% endif %}" href="{{ '/books.html' | relative_url }}">Books</a>
+    <div class="right">
+        <a href="https://www.nushell.sh" class="button"><span class="no-mobile">Visit our </span>Website</a>
+    </div>
+</nav>
+
+<div id="Sidenav" class="sidenav">
+        English
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{ '/en/introduction.html' | relative_url }}">Introduction</a>
+        <a href="{{ '/en/philosophy.html' | relative_url }}">Philosophy</a>
+        <a href="{{ '/en/values.html' | relative_url }}">Values</a>
+        <a href="{{ '/en/commands.html' | relative_url }}">Commands</a>
+        <a href="{{ '/en/streams.html' | relative_url }}">Streams</a>
+        <a href="{{ '/en/metadata.html' | relative_url }}">Metadata</a>
+        <a href="{{ '/en/plugins.html' | relative_url }}">Plugins</a>
+        <a href="{{ '/en/shells.html' | relative_url }}">Shells</a>
+        Español
+        <a href="{{ '/es/introduccion.html' | relative_url }}">Introducción</a>
+        <a href="{{ '/es/filosofia.html' | relative_url }}">Filosofía</a>
+        <a href="{{ '/es/comandos.html' | relative_url }}">Comandos</a>
+        <a href="{{ '/es/metadatos.html' | relative_url }}">Metadatos</a>
+</div>
+
+<script>
+        function openNav() {
+          document.getElementById("Sidenav").style.width = "220px";
+          document.getElementById("main").style.marginLeft = "220px";
+        }
+  
+        function closeNav() {
+          document.getElementById("Sidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft = "0";
+        }
+</script>

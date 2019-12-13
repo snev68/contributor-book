@@ -1,4 +1,11 @@
-# Metadata
+---
+layout: content
+title: Metadata
+prev: Streams
+next: Plugins
+link_prev: /en/streams.html
+link_next: /en/plugins.html
+---
 
 All values that flow into and out of commands in Nu is tagged with metadata.  You'll see this commonly around the codebase as `Tagged<Value>`. 
 

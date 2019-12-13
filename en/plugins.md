@@ -1,4 +1,11 @@
-# Plugins
+---
+layout: content
+title: Plugins
+prev: Metadata
+next: Shells
+link_prev: /en/metadata.html
+link_next: /en/shells.html
+---
 
 ## Protocol
 
