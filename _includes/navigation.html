@@ -8,21 +8,27 @@
 </nav>
 
 <div id="Sidenav" class="sidenav">
-        English
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="{{ '/en/introduction.html' | relative_url }}">Introduction</a>
-        <a href="{{ '/en/philosophy.html' | relative_url }}">Philosophy</a>
-        <a href="{{ '/en/values.html' | relative_url }}">Values</a>
-        <a href="{{ '/en/commands.html' | relative_url }}">Commands</a>
-        <a href="{{ '/en/streams.html' | relative_url }}">Streams</a>
-        <a href="{{ '/en/metadata.html' | relative_url }}">Metadata</a>
-        <a href="{{ '/en/plugins.html' | relative_url }}">Plugins</a>
-        <a href="{{ '/en/shells.html' | relative_url }}">Shells</a>
-        Español
-        <a href="{{ '/es/introduccion.html' | relative_url }}">Introducción</a>
-        <a href="{{ '/es/filosofia.html' | relative_url }}">Filosofía</a>
-        <a href="{{ '/es/comandos.html' | relative_url }}">Comandos</a>
-        <a href="{{ '/es/metadatos.html' | relative_url }}">Metadatos</a>
+
+        <a href="#" class="hide" data-toggle="#list_en">English</a>
+          <ol id="list_en">
+            <li><a href="{{ '/en/introduction.html' | relative_url }}">Introduction</a></li>
+            <li><a href="{{ '/en/philosophy.html' | relative_url }}">Philosophy</a></li>
+            <li><a href="{{ '/en/values.html' | relative_url }}">Values</a></li>
+            <li><a href="{{ '/en/commands.html' | relative_url }}">Commands</a></li>
+            <li><a href="{{ '/en/streams.html' | relative_url }}">Streams</a></li>
+            <li><a href="{{ '/en/metadata.html' | relative_url }}">Metadata</a></li>
+            <li><a href="{{ '/en/plugins.html' | relative_url }}">Plugins</a></li>
+            <li><a href="{{ '/en/shells.html' | relative_url }}">Shells</a></li>
+          </ol>
+
+        <a href="#" class="hide" data-toggle="#list_es">Español</a>
+        <ol id="list_es">
+          <li><a href="{{ '/es/introduccion.html' | relative_url }}">Introducción</a></li>
+          <li><a href="{{ '/es/filosofia.html' | relative_url }}">Filosofía</a></li>
+          <li><a href="{{ '/es/comandos.html' | relative_url }}">Comandos</a></li>
+          <li><a href="{{ '/es/metadatos.html' | relative_url }}">Metadatos</a></li>
+        </ol>
 </div>
 
 <script>
@@ -35,4 +41,20 @@
           document.getElementById("Sidenav").style.width = "0";
           document.getElementById("main").style.marginLeft = "0";
         }
+</script>
+<script>
+  $('[data-toggle]').on('click', function(){
+  var id = $(this).data("toggle"),
+      $object = $(id),
+      className = "open";
+
+  if ($object) {
+    if ($object.hasClass(className)) {
+      $object.removeClass(className)
+    } else {
+      $object.addClass(className)
+      $object.replace(">", "^")
+    }
+  }
+});
 </script>
