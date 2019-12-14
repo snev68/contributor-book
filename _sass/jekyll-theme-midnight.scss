@@ -11,6 +11,7 @@ $green-medium: #5bb006;
 $green-bright: #51cd28;
 $green-brighter: #69ff33;
 
+$spacing-unit: 30px;
 
 body {
   padding: 0 0 20px 0;
@@ -171,8 +172,22 @@ pre {
 }
 
 table {
-  width:100%;
-  border-collapse:collapse;
+  width: 100%;
+  text-align: left;
+  color: $text-light;
+  border-collapse: collapse;
+  border: 1px solid #333;
+  th, td {
+    padding: ($spacing-unit / 3) ($spacing-unit / 2);
+  }
+  th {
+    background-color: #333;
+    color: #efefef;
+    border: 1px solid #333;
+  }
+  td {
+    border: 1px solid #333;
+  }
 }
 
 #header {
@@ -520,7 +535,7 @@ section {
     display: none;
   }
   .lang_sel {
-    .table {
+    table {
       column-count: 1;
     }
   }
