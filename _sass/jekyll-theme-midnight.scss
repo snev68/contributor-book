@@ -11,6 +11,7 @@ $green-medium: #5bb006;
 $green-bright: #51cd28;
 $green-brighter: #69ff33;
 
+$spacing-unit: 30px;
 
 body {
   padding: 0 0 20px 0;
@@ -171,8 +172,22 @@ pre {
 }
 
 table {
-  width:100%;
-  border-collapse:collapse;
+  width: 100%;
+  text-align: left;
+  color: $text-light;
+  border-collapse: collapse;
+  border: 1px solid #333;
+  th, td {
+    padding: ($spacing-unit / 3) ($spacing-unit / 2);
+  }
+  th {
+    background-color: #333;
+    color: #efefef;
+    border: 1px solid #333;
+  }
+  td {
+    border: 1px solid #333;
+  }
 }
 
 #header {
@@ -398,21 +413,27 @@ section {
   border-radius: 50px;
 }
 
-.lang_select {
+.lang_sel {
   text-align: center;
-  width: 100%;
   a {
-    width: 300px;
-    min-width: 200px;
-    padding: 10px 40px 10px 40px;
     border-style: solid;
     border-width: 2px;
     border-color: #bbb;
     border-radius: 5px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-    line-height: 70px;
+    align-content: center;
+    line-height: 50px;
+    position: relative;
+    margin: 0 auto;
     text-align: center;
+    width: 250px;
+    display: inline-block;
     margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+  }
+  table {
+    column-count: 2;
   }
 }
 
@@ -429,16 +450,32 @@ section {
   padding-top: 60px;
   transition: 0.5s;
   a {
-    padding: 8px 8px 8px 32px;
+    padding: 8px 8px 8px 5px;
     text-decoration: none;
     font-size: 25px;
-    color: $green-bright;
+    color: #888888;
     display: block;
     transition: 0.3s;
     font-size: 18px;
     font-weight: normal;
-    &:hover, &:focus {
+    &:hover {
       color: $green-brighter;
+    }
+  }
+  ol{
+    list-style: none;
+    a {
+      padding: 8px 8px 8px 0px;
+      text-decoration: none;
+      font-size: 25px;
+      color: $green-bright;
+      display: block;
+      transition: 0.3s;
+      font-size: 18px;
+      font-weight: normal;
+      &:hover, &:focus {
+        color: $green-brighter;
+      }
     }
   }
   .closebtn {
@@ -497,6 +534,11 @@ section {
   .no-mobile {
     display: none;
   }
+  .lang_sel {
+    table {
+      column-count: 1;
+    }
+  }
 }
 
 @media print, screen and (max-width: 480px) {
@@ -528,4 +570,18 @@ section {
       padding: 4px 8px;
     }
   }
+}
+
+#list_en {
+  display: none;
+}
+#list_es {
+  display: none;
+}
+
+#list_en.open {
+  display: block;  
+}
+#list_es.open {
+  display: block;  
 }

@@ -29,12 +29,20 @@
         <div id="title">
           <h1>{{ site.title | default: site.github.repository_name }}</h1>
         </div>
-        Please select your language:
-        <div class="lang_select">
-          <a href="{{ '/en/introduction.html' | relative_url }}">English</a>
-          <a href="{{ '/es/introduccion.html' | relative_url }}">Español</a> 
-        </div>
+
         {{ content }}
+        
+        <p>
+          <div class="lang_sel">
+            <table>
+              <tr>
+                <a href="{{ '/en/introduction.html' | relative_url }}">English</a>
+                <a href="{{ '/es/introduccion.html' | relative_url }}">Español</a> 
+              </tr>
+            </table> 
+          </div>
+        </p>
+        
       </section>
 
     </div>
