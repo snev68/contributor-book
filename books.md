@@ -3,10 +3,10 @@ title: Other Books
 layout: books
 ---
 
-# [Nu Book](https://book.nushell.sh)
+# [Nu Book](https://www.nushell.sh/book/)
 
-You can read our [book](https://book.nushell.sh) to lern more about the core concepts behind Nu. It covers the basic and contains a lot of examples which will help you to have an easy start. 
+You can read our [book](https://www.nushell.sh/book/) to lern more about the core concepts behind Nu. It covers the basic and contains a lot of examples which will help you to have an easy start. 
 
-# [Cookbook](https://github.com/nushell/cookbook)
+# [Cookbook](https://www.nushell.sh/cookbook/)
 
-[Nu Cookbook](https://github.com/nushell/cookbook) is a collection of examples to help you get the most out of using Nushell. It offers multiple ways of expressing the same pipelines so you can become familiar with all the commands.
+[Nu Cookbook](https://www.nushell.sh/cookbook/) is a collection of examples to help you get the most out of using Nushell. It offers multiple ways of expressing the same pipelines so you can become familiar with all the commands.

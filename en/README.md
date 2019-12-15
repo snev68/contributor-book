@@ -1,4 +1,7 @@
-# Nushell Contributor Book
+---
+layout: books
+title: Nushell Contributor Book
+---
 
 The goals of this book are to help developers understand how Nu is designed and developed, to make it easier to jump in and contribute.
 
