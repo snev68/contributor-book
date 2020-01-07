@@ -1,4 +1,8 @@
-# El manual de Nu para contribuyentes
+---
+layout: books
+title: El manual de Nu para contribuyentes
+---
+
 El libro de trabajo en progreso para el manual de Nu para contribuyentes
 
 Actualmente disponibles:
