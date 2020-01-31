@@ -42,15 +42,19 @@ Next, we'll add `nu` to the list of dependencies to the Cargo.toml directory.  A
 
 ```
 [dependencies]
-nu = "~0"
+nu-plugin = "~0"
+nu-protocol = "~0"
+nu-source = "~0"
+nu-errors = "~0"
 ```
 
 With this, we can open up src/main.rs and create our plugin.
 
 ```rust
-use nu::{
-    serve_plugin, CallInfo, Plugin, Primitive, ReturnSuccess, ReturnValue, ShellError, Signature,
-    Tagged, Value,
+use nu_errors::ShellError;
+use nu_plugin::{serve_plugin, Plugin};
+use nu_protocol::{
+    CallInfo, Primitive, ReturnSuccess, ReturnValue, Signature, UntaggedValue, Value,
 };
 
 struct Len;
@@ -60,19 +64,19 @@ impl Len {
         Len
     }
 
-    fn len(&mut self, value: Tagged<Value>) -> Result<Tagged<Value>, ShellError> {
-        match value.item {
-            Value::Primitive(Primitive::String(s)) => Ok(Tagged {
-                item: Value::int(s.len() as i64),
+    fn len(&mut self, value: Value) -> Result<Value, ShellError> {
+        match &value.value {
+            UntaggedValue::Primitive(Primitive::String(s)) => Ok(Value {
+                value: UntaggedValue::int(s.len() as i64),
                 tag: value.tag,
             }),
             _ => Err(ShellError::labeled_error(
-                "Unrecognized type in stream",
-                "'len' given non-string by this",
+                "Unrecorgnized type in stream",
+                "'len' given non-string info by this",
                 value.tag.span,
             )),
         }
-    }
+    
 }
 
 impl Plugin for Len {
@@ -84,7 +88,7 @@ impl Plugin for Len {
         Ok(vec![])
     }
 
-    fn filter(&mut self, input: Tagged<Value>) -> Result<Vec<ReturnValue>, ShellError> {
+    fn filter(&mut self, input: Value) -> Result<Vec<ReturnValue>, ShellError> {
         Ok(vec![ReturnSuccess::value(self.len(input)?)])
     }
 }
@@ -118,7 +122,7 @@ impl Plugin for Len {
         Ok(vec![])
     }
 
-    fn filter(&mut self, input: Tagged<Value>) -> Result<Vec<ReturnValue>, ShellError> {
+    fn filter(&mut self, input: Value) -> Result<Vec<ReturnValue>, ShellError> {
         Ok(vec![ReturnSuccess::value(self.len(input)?)])
     }
 }
@@ -126,7 +130,7 @@ impl Plugin for Len {
 
 The two most important parts of this implementation are the `config` part, which is run by Nu when it first starts up. This tells Nu the basic information about the plugin: its name, the parameters it takes, and what kind of plugin it is. Here, we tell Nu that the name is "len" and we are a filter plugin (rather than a sink plugin).
 
-Next, in the `filter` implementation, we describe how to do work as values flow into this plugin.  Here, we receive one value (a Tagged<Value>) at a time. We also return either a Vec of values or an error.  Return a vec instead of a single value allows us to remove values, or add new ones, in addition to working with the single value coming in.
+Next, in the `filter` implementation, we describe how to do work as values flow into this plugin.  Here, we receive one value (a Value) at a time. We also return either a Vec of values or an error.  Return a vec instead of a single value allows us to remove values, or add new ones, in addition to working with the single value coming in.
   
 Because the `begin_filter` doesn't do anything, we can remove it.  This would make the above:
 
@@ -135,8 +139,8 @@ impl Plugin for Len {
     fn config(&mut self) -> Result<Signature, ShellError> {
         Ok(Signature::build("len").filter())
     }
-
-    fn filter(&mut self, input: Tagged<Value>) -> Result<Vec<ReturnValue>, ShellError> {
+    
+    fn filter(&mut self, input: Value) -> Result<Vec<ReturnValue>, ShellError> {
         Ok(vec![ReturnSuccess::value(self.len(input)?)])
     }
 }
@@ -162,15 +166,15 @@ impl Len {
         Len
     }
 
-    fn len(&mut self, value: Tagged<Value>) -> Result<Tagged<Value>, ShellError> {
-        match value.item {
-            Value::Primitive(Primitive::String(s)) => Ok(Tagged {
-                item: Value::int(s.len() as i64),
+    fn len(&mut self, value: Value) -> Result<Value, ShellError> {
+        match &value.value {
+            UntaggedValue::Primitive(Primitive::String(s)) => Ok(Value {
+                value: UntaggedValue::int(s.len() as i64),
                 tag: value.tag,
             }),
             _ => Err(ShellError::labeled_error(
-                "Unrecognized type in stream",
-                "'len' given non-string by this",
+                "Unrecorgnized type in stream",
+                "'len' given non-string info by this",
                 value.tag.span,
             )),
         }
@@ -196,16 +200,16 @@ The first method is optional, it's just a convenient way to create a new value o
 ```rust
 impl Len {
     // ...
-    
-    fn len(&mut self, value: Tagged<Value>) -> Result<Tagged<Value>, ShellError> {
-        match value.item {
-            Value::Primitive(Primitive::String(s)) => Ok(Tagged {
-                item: Value::int(s.len() as i64),
+
+    fn len(&mut self, value: Value) -> Result<Value, ShellError> {
+        match &value.value {
+            UntaggedValue::Primitive(Primitive::String(s)) => Ok(Value {
+                value: UntaggedValue::int(s.len() as i64),
                 tag: value.tag,
             }),
             _ => Err(ShellError::labeled_error(
-                "Unrecognized type in stream",
-                "'len' given non-string by this",
+                "Unrecorgnized type in stream",
+                "'len' given non-string info by this",
                 value.tag.span,
             )),
         }
@@ -220,9 +224,10 @@ We use Rust's pattern matching to check the type of the Value coming in, and the
 Lastly, let's look at the top of the file:
 
 ```rust
-use nu::{
-    serve_plugin, CallInfo, Plugin, Primitive, ReturnSuccess, ReturnValue, ShellError, Signature,
-    Tagged, Value,
+use nu_errors::ShellError;
+use nu_plugin::{serve_plugin, Plugin};
+use nu_protocol::{
+    CallInfo, Primitive, ReturnSuccess, ReturnValue, Signature, UntaggedValue, Value,
 };
 ```
 
