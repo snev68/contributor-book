@@ -449,11 +449,12 @@ section {
   overflow-x: hidden;
   padding-top: 60px;
   transition: 0.5s;
+  color: #888888;
   a {
     padding: 8px 8px 8px 5px;
     text-decoration: none;
     font-size: 25px;
-    color: #888888;
+    color: $green-bright;
     display: block;
     transition: 0.3s;
     font-size: 18px;
@@ -480,6 +481,7 @@ section {
   }
   .closebtn {
     position: absolute;
+    color: $green-bright;
     top: 0;
     right: 25px;
     font-size: 36px;
