@@ -360,3 +360,11 @@ Just change the first line into:
 ```
 
 and you are good to go.
+
+## Creating a plugin (in C#)
+
+You can learn about creating a Nu plugin with C# here:
+
+.Net Core nu-plugin-lib
+[https://github.com/myty/nu-plugin-lib](https://github.com/myty/nu-plugin-lib)
+
