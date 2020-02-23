@@ -365,6 +365,5 @@ and you are good to go.
 
 You can learn about creating a Nu plugin with C# here:
 
-.Net Core nu-plugin-lib
-(https://github.com/myty/nu-plugin-lib)
+* .Net Core nu-plugin-lib: (https://github.com/myty/nu-plugin-lib)
 
