@@ -45,13 +45,13 @@ In this way, you can support jumping between working directories.  Note that cur
 
 **Limitations**
 
-There are some limitations on the fileystem shell in its current state of development. One such limitation is that you can not easily add multiple new paths to the ring buffer at a time (for example: `enter $it`), as each new addition to the ring buffer will change the current directory. This limitation is not inherent in the design of the ring buffer and a future design may wish to separate `enter` from the changing of the current working directory.
+There are some limitations on the filesystem shell in its current state of development. One such limitation is that you can not easily add multiple new paths to the ring buffer at a time (for example: `enter $it`), as each new addition to the ring buffer will change the current directory. This limitation is not inherent in the design of the ring buffer and a future design may wish to separate `enter` from the changing of the current working directory.
 
 ## Value Shell
 
 The Value Shell gives you the ability to explore the inside of a structured value by loading a file treating its contents as if it were a filesystem. This allows you to explore this data as one of the shells in the ring buffer.
 
-The current implemenatation of the Value Shell is limited to the read-only subset of file operations, namely: `cd` and `ls`. Future designs may wish to explore this further, but there are open design questions around mutating an `enter`ed file and how the rest of the environment observes these changes (what happens if you enter the file being used by `config`?)
+The current implementation of the Value Shell is limited to the read-only subset of file operations, namely: `cd` and `ls`. Future designs may wish to explore this further, but there are open design questions around mutating an `enter`ed file and how the rest of the environment observes these changes (what happens if you enter the file being used by `config`?)
 
 In a Value Shell, the `cd` command changes the path that is being observed as the "current working directory" in the object, but in actuality is the field path.  This means that the path "/abc/def" is the path "abc.def" outside of the Value Shell. 
 
