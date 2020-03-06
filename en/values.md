@@ -7,19 +7,32 @@ link_prev: /en/philosophy.html
 link_next: /en/commands.html
 ---
 
-A Value is the basic datatype in Nu. Currently, it covers the following possible value types:
+A Value is the basic structure datatype in Nu.
 
 ```rust
-pub enum Value {
-    Primitive(Primitive),
-    Row(crate::data::Dictionary),
-    Table(Vec<Tagged<Value>>),
-
-    Block(Block),
+pub struct Value {
+    pub value: UntaggedValue,
+    pub tag: Tag,
 }
 ```
 
-Where Primitive is:
+Where the `value` field is any given value type `UntaggedValue` and the `tag` field holds [metadata](metadata.md) associated with it.
+
+An `UntaggedValue` covers the following value types:
+
+```rust
+pub enum UntaggedValue {
+    Primitive(Primitive),
+    Row(Dictionary),
+    Table(Vec<Value>),
+
+    Error(ShellError),
+
+    Block(Evaluate),
+}
+```
+
+Where `Primitive` is:
 
 ```rust
 pub enum Primitive {
@@ -27,12 +40,16 @@ pub enum Primitive {
     Int(BigInt),
     Decimal(BigDecimal),
     Bytes(u64),
-    Binary(Vec<u8>),
     String(String),
+    Line(String),
+    ColumnPath(ColumnPath),
     Pattern(String),
     Boolean(bool),
     Date(DateTime<Utc>),
+    Duration(u64),
+    Range(Box<Range>),
     Path(PathBuf),
+    Binary(Vec<u8>),
 
     // Stream markers (used as bookend markers rather than actual values)
     BeginningOfStream,
@@ -44,24 +61,29 @@ Let's look at these in reverse order to see how Primitives build towards our ful
 
 ## Primitive
 
-A Primitive data type is a fundamental type in Nu. While these have similarities to the fundamental datatypes of programming languages, there are a few differences because of the shell capabilities of Nu.
+A `Primitive` data type is a fundamental type in Nu. While these have similarities to the fundamental datatypes of programming languages, there are a few differences because of the shell capabilities of Nu.
 
-Nu comes with two 'big' number types: BigInt for integers and BigDecimal for decimal numbers. This allows Nu in the future to do mathematical operations and maintain precision for longer.
+Nu comes with two 'big' number types: `BigInt` for integers and `BigDecimal` for decimal numbers. This allows Nu in the future to do mathematical operations and maintain precision for longer.
 
 Other data types that are perhaps a bit different from the norm:
 
-* Bytes(u64) = filesize in number of bytes
-* Binary(Vec<u8>) = an array of bytes
-* Pattern(string) = a glob pattern (like the `nu*` in `ls nu*`)
-* Path(PathBuf) = a filepath
-* BeginningOfStream = a marker to denote the beginning of a stream
-* EndOfStream = a marker to denote the end of a stream
+* `Nothing` = An empty value
+* `Bytes(u64)` = filesize in number of bytes
+* `Line(String)` = A string value with an implied carriage return (or cr/lf) ending
+* `ColumnPath(ColumnPath)` = A path to travel to reach a value in a table
+* `Pattern(string)` = a glob pattern (like the `nu*` in `ls nu*`)
+* `Duration(u64)` = A count in the number of seconds (like `1h`, `3600s`, `1440m`, `1d`, `86400s` en `echo 1h 3600s 1440m 1d 86400s` )
+* `Range(Box<Range>)` = A range of values (like `0..2` en `ls | nth 0..2`)
+* `Path(PathBuf)` = a filepath
+* `Binary(Vec<u8>)` = an array of bytes
+* `BeginningOfStream` = a marker to denote the beginning of a stream
+* `EndOfStream` = a marker to denote the end of a stream
 
-## Value
+## UntaggedValue
 
-In addition to the primitive types, Nu supports aggregate data types. Collectively, these aggregate types are called Values.
+In addition to the primitive types, Nu supports aggregate data types. Collectively, these aggregate types are called `UntaggedValue`s.
 
-Currently, Nu supports 4 Value types: Row, Table, Block, and Primitive.
+Currently, Nu supports 5 UntaggedValue types: `Row`, `Table`, `Block`, `Primitive`, and `Error`.
 
 ### Tables and Rows
 
@@ -70,3 +92,7 @@ Nu uses a set of terms that match a bit more closely to spreadsheets. Rather tha
 ### Blocks
 
 Blocks represent code that is ready to be executed by the evaluator. One example of this is the condition in `where {$it > 10}`. 
+
+### Errors
+
+Represents errors that can happen when pipelines are run.
