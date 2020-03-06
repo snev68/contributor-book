@@ -1,6 +1,6 @@
 ---
 layout: content
-title: Introduccion
+title: Introducción
 prev: Índice
 next: Filosofía
 link_prev: /es/indice.html
