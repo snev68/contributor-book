@@ -72,7 +72,7 @@ Otros tipo de datos, quizás un poco diferentes a la norma:
 * `ColumnPath(ColumnPath)` = rutas para extraer valores de las tablas
 * `Pattern(string)` = un patrón glob (como `nu*` en `ls nu*`)
 * `Duration(u64)` = representa duración en segundos (como `1h`, `3600s`, `1440m`, `1d`, `86400s` en `echo 1h 3600s 1440m 1d 86400s` )
-* `Range(Box<Range>)` = rangos (como `0..2` en `ls | nth 0..2`)
+* `Range(Box<Range>)` = rangos (como `0..2` en `ls | range 0..2`)
 * `Path(PathBuf)` = una ruta de archivo
 * `Binary(Vec<u8>)` = un arreglo de bytes
 * `BeginningOfStream` = un marcador para denotar el inicio de un stream
