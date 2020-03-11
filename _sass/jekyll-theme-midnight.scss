@@ -71,7 +71,7 @@ a {
     color: $green-medium;
   }
 
-  &:focus {
+  &:focus, &:visited {
     color: $green-medium;
     outline: none;
   }
