@@ -70,7 +70,8 @@ a {
   &:hover {
     color: $green-medium;
   }
-  &:focus {
+
+  &:focus, &:visited {
     color: $green-medium;
     outline: none;
   }
@@ -180,11 +181,13 @@ table {
   th, td {
     padding: ($spacing-unit / 3) ($spacing-unit / 2);
   }
+
   th {
     background-color: #333;
     color: #efefef;
     border: 1px solid #333;
   }
+
   td {
     border: 1px solid #333;
   }
@@ -236,6 +239,7 @@ table {
         vertical-align: -2px;
         font-family: 'Source Code Pro', monospace;
       }
+
       &.nu::after {
         content: '>';
         color: white;
@@ -262,7 +266,7 @@ table {
         font-size: 80%;
         line-height: 1.5em;
         transition: background-color .15s;
-  
+
         &:hover, &:focus {
           color: #fff;
           background-color: $green-medium;
@@ -300,10 +304,12 @@ footer {
       float: right;
     }
   }
-  .next{
+
+  .next {
     float: right;
   }
-  .prev{
+
+  .prev {
     float: left;
   }
 
@@ -367,29 +373,29 @@ section {
 }
 
 .next {
-  
+
   a {
-  border-style: solid;
-  border-width: 2px;
-  border-color: #bbb;
-  border-radius: 5px;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-  align-content: center;
-  line-height: 50px;
-  position: relative;
-  margin: 0 auto;
-  text-align: right;
-  width: 250px;
-  padding-right: 15px;
-  flex-wrap: wrap;
-  float: right;
-  margin-top: 20px;
-  margin-bottom: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #bbb;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    align-content: center;
+    line-height: 50px;
+    position: relative;
+    margin: 0 auto;
+    text-align: right;
+    width: 250px;
+    padding-right: 15px;
+    flex-wrap: wrap;
+    float: right;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 }
 
 .prev {
-  a{
+  a {
   border-style: solid;
   border-width: 2px;
   border-color: #bbb;
@@ -415,6 +421,7 @@ section {
 
 .lang_sel {
   text-align: center;
+
   a {
     border-style: solid;
     border-width: 2px;
@@ -432,6 +439,7 @@ section {
     margin-bottom: 10px;
     margin-right: 50px;
   }
+
   table {
     column-count: 2;
   }
@@ -450,6 +458,7 @@ section {
   padding-top: 60px;
   transition: 0.5s;
   color: #888888;
+
   a {
     padding: 8px 8px 8px 5px;
     text-decoration: none;
@@ -463,8 +472,10 @@ section {
       color: $green-brighter;
     }
   }
-  ol{
+
+  ol {
     list-style: none;
+
     a {
       padding: 8px 8px 8px 0px;
       text-decoration: none;
@@ -479,6 +490,7 @@ section {
       }
     }
   }
+
   .closebtn {
     position: absolute;
     color: $green-bright;
@@ -486,16 +498,20 @@ section {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
-  }  
+  }
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+  .sidenav {
+    padding-top: 15px;
+  }
+
+  .sidenav a {
+    font-size: 18px;
+  }
 }
 
 @media print, screen and (max-width: 720px) {
-
   #title {
     .credits {
       display: block;
@@ -527,15 +543,18 @@ section {
         line-height: 42px;
         margin-right: 9px;
       }
+
       div.right a.button {
         margin-top: 6px;
         margin-bottom: 6px;
       }
     }
   }
+
   .no-mobile {
     display: none;
   }
+
   .lang_sel {
     table {
       column-count: 1;
@@ -567,6 +586,7 @@ section {
       font-size: 2.5em;
     }
   }
+
   #header nav {
     div.right a.button {
       padding: 4px 8px;
@@ -577,13 +597,15 @@ section {
 #list_en {
   display: none;
 }
+
 #list_es {
   display: none;
 }
 
 #list_en.open {
-  display: block;  
+  display: block;
 }
+
 #list_es.open {
-  display: block;  
+  display: block;
 }
