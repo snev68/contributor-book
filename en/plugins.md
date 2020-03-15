@@ -18,7 +18,7 @@ The second stage is the actual doing of work.  Here the plugins are sent either 
 ## Discovery
 
 Nu discovers plugins by checking all directories available in the current PATH.
-In each directory, Nu is looking for executable files that match the pattern `nu_plugin_*` where `*` is a minimum of one alpha-numeric character.
+In each directory, Nu is looking for executable files that match the pattern `nu_plugin_*` where `*` is a minimum of one alphanumeric character.
 On Windows, this has a similar pattern of `nu_plugin_*.exe` or `nu_plugin_*.bat`.
 
 Once a matching file has been discovered, Nu will invoke the file and pass to it the first JSON-RPC command: config.
