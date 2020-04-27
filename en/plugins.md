@@ -17,9 +17,12 @@ The second stage is the actual doing of work.  Here the plugins are sent either 
 
 ## Discovery
 
-Plugins are discovered by Nu by checking all directories available in the current PATH. In each directory, Nu is looking for executable files that match the pattern `nu_plugin_*` where `*` matches anything after the `nu_plugin_`.  On Windows, this has a similar pattern of `nu_plugin_*.exe` or `nu_plugin_*.bat`.
+Nu discovers plugins by checking all directories available in the current PATH.
+In each directory, Nu is looking for executable files that match the pattern `nu_plugin_*` where `*` is a minimum of one alphanumeric character.
+On Windows, this has a similar pattern of `nu_plugin_*.exe` or `nu_plugin_*.bat`.
 
-Once a matching file has been discovered, Nu will invoke the file and pass to it the first JSON-RPC command: config. Config replies with the signature of the plugin, which is identical to the signature commands use. (TODO: add link).
+Once a matching file has been discovered, Nu will invoke the file and pass to it the first JSON-RPC command: config.
+Config replies with the signature of the plugin, which is identical to the signature commands use.
 
 Nu continues in this way until it has traveled across all directories in the path.
 
@@ -81,7 +84,7 @@ impl Len {
 
 impl Plugin for Len {
     fn config(&mut self) -> Result<Signature, ShellError> {
-        Ok(Signature::build("len").filter())
+        Ok(Signature::build("len").desc("My custom len plugin").filter())
     }
 
     fn begin_filter(&mut self, _: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
@@ -115,7 +118,7 @@ Next, above main, is this implementation of the `Plugin` trait for our particula
 ```rust
 impl Plugin for Len {
     fn config(&mut self) -> Result<Signature, ShellError> {
-        Ok(Signature::build("len").filter())
+        Ok(Signature::build("len").desc("My custom len plugin").filter())
     }
 
     fn begin_filter(&mut self, _: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
@@ -128,16 +131,19 @@ impl Plugin for Len {
 }
 ```
 
-The two most important parts of this implementation are the `config` part, which is run by Nu when it first starts up. This tells Nu the basic information about the plugin: its name, the parameters it takes, and what kind of plugin it is. Here, we tell Nu that the name is "len" and we are a filter plugin (rather than a sink plugin).
+The two most important parts of this implementation are the `config` part, which is run by Nu when it first starts up. This tells Nu the basic information about the plugin: its name, the parameters it takes, the description, and what kind of plugin it is.
+Here, we tell Nu that the name is "len", give it a basic description for `help` to display and we are a filter plugin (rather than a sink plugin).
 
-Next, in the `filter` implementation, we describe how to do work as values flow into this plugin.  Here, we receive one value (a Value) at a time. We also return either a Vec of values or an error.  Return a vec instead of a single value allows us to remove values, or add new ones, in addition to working with the single value coming in.
+Next, in the `filter` implementation, we describe how to do work as values flow into this plugin.  Here, we receive one value (a `Value`) at a time.
+We also return either a Vec of values or an error.
+Return a vec instead of a single value allows us to remove values, or add new ones, in addition to working with the single value coming in.
   
 Because the `begin_filter` doesn't do anything, we can remove it.  This would make the above:
 
 ```rust
 impl Plugin for Len {
     fn config(&mut self) -> Result<Signature, ShellError> {
-        Ok(Signature::build("len").filter())
+        Ok(Signature::build("len").desc("My custom len plugin").filter())
     }
     
     fn filter(&mut self, input: Value) -> Result<Vec<ReturnValue>, ShellError> {
@@ -233,11 +239,27 @@ use nu_protocol::{
 
 Here we import everything we need -- types and functions -- to be able to create our plugin.
 
-Once we have finished our plugin, to use it all we need to do is install it.  Once `nu` starts up, it will discover it and register it as a command we can use:
+Once we have finished our plugin, to use it all we need to do is install it.
 
 ```
 > cargo install --path .
+```
+
+Once `nu` starts up, it will discover it and register it as a command.
+If you're already running `nu` during the installation process of your plugin, ensure you restart `nu` so it can load and register your plugin.
+
+```
 > nu
+> echo hello | len
+5
+> help len
+This is my custom len plugin
+
+Usage:
+  > len {flags}
+
+flags:
+  -h, --help: Display this help message
 ```
 
 ## Creating a plugin (in Python)
