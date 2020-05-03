@@ -79,7 +79,7 @@ impl Len {
                 value.tag.span,
             )),
         }
-    
+    }
 }
 
 impl Plugin for Len {
