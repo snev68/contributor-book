@@ -87,7 +87,7 @@ Currently, Nu supports 5 `UntaggedValue` types: `Row`, `Table`, `Block`, `Primit
 
 ### Tables and Rows
 
-Nu uses a set of terms that match a bit more closely to spreadsheets. Rather than having lists of objects, Nu has a table, which contains rows. Each Row contains contains the column names and their corresponding Values.
+Nu uses a set of terms that match a bit more closely to spreadsheets. Rather than having lists of objects, Nu has a table, which contains rows. Each Row contains the column names and their corresponding Values.
 
 ### Blocks
 
