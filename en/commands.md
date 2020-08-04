@@ -11,7 +11,7 @@ Commands are the building blocks for pipelines in Nu. They do the action of the 
 
 ## Internal commands
 
-All commands inside of Nu, including plugins, are internal commands. Internal commands communicate with each other using streams of Tagged<Value> and ShellError (TODO: Link to data types)
+All commands inside of Nu, including plugins, are internal commands. Internal commands communicate with each other using streams of [Tagged<Value>](https://github.com/nushell/nushell/blob/d30c40b40ebfbb411a503ad7c7bceae8029c6689/crates/nu-source/src/meta.rs#L91) and [ShellError](https://github.com/nushell/nushell/blob/main/crates/nu-errors/src/lib.rs#L179)
 
 ### Signature
 
