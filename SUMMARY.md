@@ -15,3 +15,12 @@
   * [Metadatos](es/metadatos.md)
   * Plugins 
   * Shells
+
+* [Português](pt/README.md) 
+  * [Introdução](pt/introdução.md) - Iniciando
+  * [Values](pt/values.md)
+  * [Commands](pt/commands.md)
+  * [Streams](pt/streams.md)
+  * [Metadata](pt/metadata.md)
+  * [Plugins](pt/plugins.md)
+  * [Shells](pt/shells.md)
