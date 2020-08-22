@@ -1,10 +1,10 @@
 ---
 layout: content
-title: Values
-prev: Philosophy
-next: Commands
-link_prev: /en/philosophy.html
-link_next: /en/commands.html
+title: Valores
+prev: Filosofia
+next: Comandos
+link_prev: /pt/filosofia.html
+link_next: /pt/comandos.html
 ---
 
 A Value is the basic structure datatype in Nu.

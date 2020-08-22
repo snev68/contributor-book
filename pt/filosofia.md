@@ -1,29 +1,28 @@
 ---
 layout: content
 title: Filosofia
-prev: Filosofia
+prev: Introdução
 next: Valores
-link_prev: /en/introdução.html
-link_next: /en/values.html
+link_prev: /pt/introdução.html
+link_next: /pt/valores.html
 ---
 
-## Core Values
+## Principais Valores
 
-Nu's core value is that working in a shell should be fun. To support this, we believe that:
+O principal valor do Nu é que trabalhar em um shell deve ser divertido. Para apoiar isso, nós acreditamos que:
 
-- A modern shell should be designed for usability and ergonomics. **Above all else, Nu should be fun to use.**
-- It should provide great informative errors messages when a command will not succeed correctly. This is critically important. A fun shell gives **clear, actionable errors**.
-- It should be built around supporting casual use, as this is the majority of use in a shell, even by experienced users. Building a shell that is **fun for casual use makes a fun shell for everyone**.
-- Nu supports experimentation and **growing ideas from experiments to programs**. The ability to evolve ideas to one-liners, scripts, and then to programs is a key role a shell plays. To support this, Nu builds on the idea of composable commands that work on a shared set of datatypes.
+- Um shell moderno deve ser projetado para ter usabilidade e ergonomia. **Acima de tudo, Nu deve ser divertido de usar.**
+- Deve oferecer mensagens de erro informativas quando um comando não executar corretamente. Isso é criticamente importante. Um shell divertido fornece **erros claros e acionáveis.**
+- Deve ser feito visando o uso casual, visto que essa é a forma mais utilziada de um shell, até mesmo por usuários experientes. Construir um shell que é **divertido para o uso casual torna um shell divertido para todo mundo**.
+- Nu oferece experimentação e **ideias desenvolvidas de experimentos para programas**. A habilidade de evoluir ideias em uma linha, scripts, e então para programas é um papel fundamental feito por um shell. Para oferecer isso, Nu parte do princípio de comandos compostos que funcionam em um conjunto de tipos de dados compartilhados.
 
-## Non-goals
+## Não objetivos
 
-- *Optimal performance*. While we care about performance, the focus on performance should be in service of making Nu more usable and enjoyable to use. Best performance on micro-benchmarks is a non-goal.
-- *Strictness*. We want to help users write good scripts, but we should focus on helping them write correct scripts with good errors and good documentation.
-- *POSIX-compliance*. Nu intentionally optimizes for a pleasant experience over matching how commandline programs work in a POSIX-compliant way. It's important to be able to interop between Nu commands and external commands, but maintain strict compatibility is a non-goal. 
-- *Paradigm adherence*. Nu looks at the shell space flexibly, and borrows good ideas where possible from functional programming, systems programming, OOP, and more. Following any particular paradigm rigidly does not serve the goals of the Nu project.
+- *Performance ótima*. Apesar de nos preocuparmos com performance, o foco em performance deve ser no serviço de fazer o Nu mais utilizável e prazeroso de se utilizar. Melhor performance em micro-benchmarks não é um objetivo.
+- *Rigor*. Nós queremos ajudar usuários a escrever bons scripts, mas devemos focar em ajudá-los a escrever scripts corretos com bons erros e boa documentação.
+- *Conformidade com POSIX*. Nu otimiza intencionalmente para uma experiência agradável em comparação com a forma como os programas de linha de comando funcionam de uma forma compatível com POSIX. É importante ser capaz de interoperar entre comandos Nu e comandos externos, mas manter uma compatibilidade estrita não é um objetivo
+- *Aderência de paradigma*. Nu observa o espaço de flexibilidade dos shells, e quando possível busca ideias de programação funcional, programação de sistemas, POO, e mais. Seguir qualquer paradigma de forma rígida não é um dos objetivos do projeto Nu.
 
 ## Design Básico
 
-The core of the Nu design is the data model. Commands largely follow in service to making it easy to create data, to work with data, and to view data. One of the visible pieces of this work is the pipeline, which borrows heavily from the original Unix ideas of connecting simple programs together into more complex commands. Nu takes this Unix philosophy and extends it from only strings to the wider data set that is more common in modern programming languages.
-
+O princípio do design de Nu é o modelo de dados. Em grande parte, os comandos seguem em serviço para facilitar a criação de dados, o trabalho com dados e a exibição de dados. Uma das peças visíveis desse trabalho é o pipeline, que se baseia fortemente nas ideias originais do Unix de conectar programas juntos em comandos complexos. Nu usa essa filosofia do Unix e a extende de apenas strings para mais tipos de dados que são comuns em linguagens de programação modernas.
