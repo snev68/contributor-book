@@ -1,41 +1,41 @@
 ---
 layout: content
 title: Streams
-prev: Commands
-next: Metadata
-link_prev: /en/commands.html
-link_next: /en/metadata.html
+prev: Comandos
+next: Metadados
+link_prev: /pt/comandos.html
+link_next: /pt/metadados.html
 ---
 
-Async streams form the foundation for how information flows from one end of the pipeline to the other. This allows nu to work with internal commands, external commands, and plugins in a way that's relatively seamless. 
+Streams assíncronas formam a base de como a informação trafega de um lado do pipeline para o outro. Isso permite que o Nu trabalhe com comandos internos, comandos externos e plugins  de uma forma relativamente contínua.
 
-There are two fundamental types for streams in Nu: InputStream and OutputStream
+Existem dois tipos fundamentais de streams no Nu: InputStream e OutputStream
 
 ## InputStream
 
-Let's look at the InputStream type a little closer:
+Vamos ver o tipo InputStream mais próximo:
 
 ```rust
 BoxStream<'static, Tagged<Value>>
 ```
 
-That is, it's an async stream who will send `Tagged<Value>` into the command. For more information about tagging, see the chapter on [metadata](metadata.md).
+É uma stream assíncrona que vai enviar um `Tagged<Value>` no comando. Para mais informações sobre tagging, veja no capítulo de [metadados](metadados.md).
 
 ## OutputStream
 
-Similar to InputStream above, an Output stream will return values from a command:
+Similar ao InputStream a cima, um OutputStream vai retornar valores de um comando:
 
 ```rust
 BoxStream<'static, ReturnValue>
 ```
 
-Where a ReturnValue is:
+Onde um ReturnValue é:
 
 ```rust
 pub type ReturnValue = Result<ReturnSuccess, ShellError>;
 ```
 
-And a ReturnSuccess is:
+E um ReturnSuccess é:
 
 ```rust
 pub enum ReturnSuccess {
@@ -44,17 +44,17 @@ pub enum ReturnSuccess {
 }
 ```
 
-Why is OutputStream different from InputStream?  This comes down to a few differences in needs of the two ends of the stream.  By the time data has gotten to the command, it's already been checked for any errors, so it's expected to be a pure data stream.
+Por que o OutputStream é diferente do InputStream? Isso ocorre devido as diferentes necessidades de cada ponta (entrada e saída) da stream. No momento em que os dados estiverem disponíveis no comando, já foi realizada a verificação de possíveis erros, então é esperado que seja uma stream pura de dados.
 
-Output streams, on the other hand, have to be able to return two other types of data in addition to values: errors and actions.
+Por outro lado, OutputStreams devem ser capazes de retornar dois outros tipos de dado além dos valores: erros e ações.
 
 ### Errors
 
-Errors that are passed down the stream will be detected as values are copied from one command to another. Once the error is detected, it will halt the streams progress and display an error.
+Erros que forem passados para a stream vão ser detectados como valores que são copiados de uma stream para a outra. Assim que o erro for detectado, a stream vai ser parada e o erro informado.
 
 ### Actions
 
-An action differs from a value in that where a value is a bit of data that the next command in the pipeline will see, an action is something intended only for the core Nu runtime.  Actions will change the state of the shell itself by, for example, changing the current path, changing the current shell, updating internal side tables, and so on.
+Uma ação se difere de um valor, pois enquanto um valor é um pedaço de dado que será visto pelo próximo comando no pipeline, uma ação é algo destinado apenas para o ambiente de execução interno do Nu. Ações mudam o estado do shell, por exemplo, ao mudar o diretório corrente, mudando o shell atual, atualizando tabelas, e assim por diante.
 
 
 

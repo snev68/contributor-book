@@ -7,44 +7,43 @@ link_prev: /pt/valores.html
 link_next: /pt/streams.html
 ---
 
-Commands are the building blocks for pipelines in Nu. They do the action of the pipeline, whether creating data, changing data as it flows from inputs to outputs, or viewing data once it as exited the pipeline. There are two types of commands: internal commands, those commands built to run inside of Nu, and external commands, commands that are outside of Nu and communicate with standard Unix-style `stdin`/`stdout`.
+Comandos são os blocos de construção para pipelines em Nu. Eles fazem a ação do pipeline, seja criando dados, mudando dados que fluem de entradas para saídas, ou visualizar dados assim que estes saem do pipeline. Existem dois tipos de comandos: comandos internos, que são comandos feitos para executar dentro do Nu, e comandos externos, que são externos ao Nu e se comunicam com o padrão Unix `stdin`/`stdout`.
 
-## Internal commands
+## Comandos internos
 
-All commands inside of Nu, including plugins, are internal commands. Internal commands communicate with each other using streams of [Tagged<Value>](https://github.com/nushell/nushell/blob/d30c40b40ebfbb411a503ad7c7bceae8029c6689/crates/nu-source/src/meta.rs#L91) and [ShellError](https://github.com/nushell/nushell/blob/main/crates/nu-errors/src/lib.rs#L179)
+Todos os comandos dentro do Nu, incluindo plugins, são comandos internos. Comandos internos se comunicam usando streams dos tipos [Tagged<Value>](https://github.com/nushell/nushell/blob/d30c40b40ebfbb411a503ad7c7bceae8029c6689/crates/nu-source/src/meta.rs#L91) e [ShellError](https://github.com/nushell/nushell/blob/main/crates/nu-errors/src/lib.rs#L179)
 
 ### Signature
 
-Commands use a light typechecking pass to ensure that arguments passed to them can be handled correctly. To enable this, each command provides a Signature which tells Nu:
+Comandos usam uma checagem de tipo simples para garantir que os argumentos passados possam ser lidados corretamente. Para permitir isso, cada comando oferece uma Signature que informa o Nu:
 
-* The name of the command
-* The positional arguments (eg, in `start x y` the `x` and `y` are positional arguments)
-* If the command takes an unbounded number of additional positional arguments (eg, `start a1 a2 a3 ... a99 a100`)
-* The named arguments (eg, `start --now`)
-* If the command is a filter or a sink
+* O nome do comando
+* Os argumentos posicionauis (eg, em `start x y` o `x` e o `y`são argumentos posicionais)
+* Se o comando recebe um número irrestrito de argumentos posicionais adicionais (eg, `start a1 a2 a3 ... a99 a100`)
+* Os argumentos nomeados (eg, `start --now`)
+* Se o comando é um filtro ou a saída
 
-With this information, a pipeline can be checked for potential problems before it's executed.
+Com essa informação, um pipeline pode verificar problemas potenciais antes de ser executado.
 
-## External commands
+## Comandos externos
 
-An external command is any command that is not part of the Nu built-in commands or plugins. If a command is called that Nu does not know about, it will call out to the underlying environment with the provide arguments in an attempt to invoke this command as an external program.
+Um comando externo é qualquer comando que não é parte dos comandos imbutidos no Nu ou em seus plugins. Se um comando desconhecido pelo Nu é chamado, o sistema subjacente vai ser chamado com os argumentos fornecidos em uma tentativa de invocar esse comando como um programa externo.
 
-## Communicating between internal and external commands
+## Comunicação entre comandos externos e internos
 
-### Internal to internal
+### Interno para interno
 
-Internal commands communicate with each other using the complete value stream that Nu provides, which includes all the built-in file types. This includes communication between internal commands and plugins (in both directions).
+Comandos internos se comunicam usando o valor completo da stream que o Nu fornece, que incluí todos os tipos de arquivos embutidos. Isso incluí a comunicação entre comandos internos e plugins (em ambas as direções).
 
-### Internal to external
+### Interno para externo
 
-Internal commands that send text to external commands need to have prepared text strings ahead of time. If an object is sent directly to an external command, that is considered an error as there is no way to infer what way the structured data should be represented for the external command.  The user is expected to either narrow down to a simple data cell or to use one of the file type converters (like `to-json`) to convert the table into a string representation.
+Comandos internos que enviam texto para comandos externos precisam ter texto (strings) preparados antes do tempo. Se um objeto é enviado diretamente para um comando externo, isso é considerado um erro já que não é possível inferir de que maneira os dados estruturados devem ser representados para o comando externo. É esperado que o usuário. O usuário deve limitar-se a uma célula de dados simples ou usar um dos conversores de tipo de arquivo (como `to-json`) para converter a tabela em uma representação de string.
+O comando externo é aberto para que seu `stdin` seja redirecionado, para que os dados possam ser enviados a ele.
 
-The external command is opened so that its `stdin` is redirected, so that the data can be sent to it.
+### Externo para interno
 
-### External to internal
+Comandos internos enviam uma série de strings pelo seu `stdout`. Essas strings são lidas no pipeline e são disponibilizadas para o comando interno seguinte no pipeline, ou expostas para o usuário se o comando externo for o último passo do pipeline.
 
-External commands send a series of strings via their `stdout`. These strings are read into the pipeline and are made available to the internal command that is next in the pipeline, or displayed to the user if the external command is the last step of the pipeline.
+### Externo para externo
 
-### External to external
-
-External commands communicate with each other via `stdin`/`stdout`. As Nu will detect this situation, it will redirect the `stdout` of the first command to the `stdin` of the following external command. In this way, the expected behavior of a shell pipeline between external commands is maintained.
+Comandos externos se comunicam através do `stdin`/`stdout`. Quando o Nu detectar essa situação, vai redirecionar o `stdout` do primeiro comando para o `stdin` do comando externo seguinte. Dessa forma, o comportamento esperado do pipeline do shell entre comandos externos é mantido.

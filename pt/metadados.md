@@ -1,24 +1,23 @@
 ---
 layout: content
-title: Metadata
+title: Metadados
 prev: Streams
 next: Plugins
-link_prev: /en/streams.html
-link_next: /en/plugins.html
+link_prev: /pt/streams.html
+link_next: /pt/plugins.html
 ---
 
-All values that flow into and out of commands in Nu is tagged with metadata.  You'll see this commonly around the codebase as `Tagged<Value>`. 
+Todos os valores que fluem para/de um comando no Nu são marcados com metadados. Você verá isso no código-fonte normalmente como um `Tagged<Value>`.
 
-Though the metadata that is tracked is still in its early days, we expect to expand this as Nu matures.
-
-Currently, there are two pieces of metadata tracked on each value:
+Apesar de os metadados que são monitorados ainda estão em fase inicial, esperamos expandir isso conforme o Nu amadurecer.
+Atualmente, existem dois tipos de metadados monitorados em cada valor:
 
 ## Anchor
 
-Anchor represents the location that the value came from originally. If the value was loaded from a file, it will be the filename. If it was loaded from a Url, it will be the url, and so on.
+Anchor representa a localização de origem de um valor. Se o valor foi carregado de um arquivo, vai ser o nome do arquivo. Se foi carregado de uma URL, vai ser a URL, e assim por diante.
 
 ## Span
 
-A span are the start and ending location of value that was created or referenced on the commandline. These are most commonly seen represented as the underline underneath an error message.
+Um Span são as localizações de início e fim do valor que foi criado ou referenciado na linha de comando. Eles são normalmente vistos como o underline abaixo de uma mensagem de erro.
 
-While spans from programming languages traditionally also carry the file the span came from, here we assume the span always spans a value referenced on the commandline rather than in a source file. As Nu gets the ability to run its own source files, this will likely need to be revisited.
+Enquanto spans de linguagens de programação tradicionalmente carregam também o arquivo de origem do span, aqui assumimos que um span While spans from programming languages traditionally also carry the file the span came from, aqui assumimos que o span  sempre abrange um valor referenciado na linha de comando, em vez de em um arquivo de origem. Quando o Nu for capaz de executar seus próprios arquivos fonte, isso provavelmente vai precisar ser revisado.
