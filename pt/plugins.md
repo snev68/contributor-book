@@ -3,45 +3,45 @@ layout: content
 title: Plugins
 prev: Metadata
 next: Shells
-link_prev: /en/metadata.html
-link_next: /en/shells.html
+link_prev: /pt/metadados.html
+link_next: /pt/shells.html
 ---
 
-## Protocol
+## Protocolo
 
-Plugins use JSON-RPC over stdin/stdout (much in the same way VSCode plugins do). The protocol is split into two stages.
+Plugins usam JSON-RPC sobre stdin/stdout (de maneira parecida aos plugins do VSCode). O protocolo é dividido em dois estágios.
 
-The first stage of the protocol deals with the initial discovery of the plugin. A plugin is started up and then asked to reply with its configuration. Much the same was as commands, plugins have a signature that they respond to Nu with.  Once Nu has this signature, it knows how to later invoke the plugin to do work.
+O primeiro estágio do protocolo lida com a descoberta inicial do plugin. Um plugin é iniciado e então solicitado para responder com a sua configuração. Muito semelhante aos comandos, plugins possuem uma assinatura que usam para responder ao Nu. Assim que o Nu possuir essa assinatura, ele saberá invocar o plugin futuramente.
 
-The second stage is the actual doing of work.  Here the plugins are sent either a stream of data where they act over the stream element-wise as a filter, or they take all the elements at once in a final processing step as a sink.
+O segundo estágio é a realização do verdadeiro trabalho. Aqui é enviado tanto uma stream de dados para o plugin agir em cada elemento como um filtro, ou então todos elementos de uma vez para o plugin agir em um processamento final como uma saída.
 
-## Discovery
+## Descoberta
 
-Nu discovers plugins by checking all directories available in the current PATH.
-In each directory, Nu is looking for executable files that match the pattern `nu_plugin_*` where `*` is a minimum of one alphanumeric character.
-On Windows, this has a similar pattern of `nu_plugin_*.exe` or `nu_plugin_*.bat`.
+Nu descobre plugins ao checar todos os diretórios disponíveis no PATH atual.
+Em cada diretório, Nu busca por arquivos executáveis que combinam com o padrão  `nu_plugin_*`, onde `*` é no mínimo um caracter alfanumérico.
+No Windows, isso é um padrão similar à `nu_plugin_*.exe` ou `nu_plugin_*.bat`.
 
-Once a matching file has been discovered, Nu will invoke the file and pass to it the first JSON-RPC command: config.
-Config replies with the signature of the plugin, which is identical to the signature commands use.
+Assim que um arquivo que combine com o padrão for descoberto, Nu vai invocar o arquivo e passar ao primeiro comando JSON-RPC: config.
+Config responde com a assinatura do plugin, que é idêntico a assinatura usada por comandos.
 
-Nu continues in this way until it has traveled across all directories in the path.
+Nu continua essa busca até ter percorrido todos os diretórios no caminho.
 
-After it has traversed the path, it will look in two more directories: the target/debug and the target/release directories. It will pick one or the other depending whether Nu was compiled in debug mode or release mode, respectively.  This allows for easier testing of plugins during development.
+Após ter percorrido o caminho, dois outros diretórios serão verificados o diretório alvo/debug e o diretório alvo/release. Um ou outro diretório vai ser buscado, dependendo seo  Nu foi compilado no módo de depuração ou de release, respectivamente. Isso permite testar rapidamente os plugins durante o desenvolvimento.
 
-## Creating a plugin (in Rust)
+## Criando um plugin (em Rust)
 
-In this section, we'll walk through creating a Nu plugin using Rust.
+Nessa seção, vamos mostrar como criar um plugin para o Nu usando Rust.
 
-Let's create our project. For this example, we'll create a simple `len` command which will return the length of strings it's passed.
+Vamos criar nosso projeto. Para esse exemplo, vamos criar um simples comando `len` que retorna o tamanho da string que recebe.
 
-First off, we'll create our plugin:
+Primeiramente, vamos criar nosso plugin:
 
 ```
 > cargo new nu_plugin_len
 > cd nu_plugin_len
 ```
 
-Next, we'll add `nu` to the list of dependencies to the Cargo.toml directory.  At the bottom of the new Cargo.toml file, add this new dependency on the `nu` crate:
+Então, vamos adicionar `nu` na lista de dependências do diretório Cargo.toml. No final do novo arquivo Cargo.toml, adicione essa nova dependência para o crate `nu`:
 
 ```
 [dependencies]
@@ -51,7 +51,7 @@ nu-source = "~0"
 nu-errors = "~0"
 ```
 
-With this, we can open up src/main.rs and create our plugin.
+Com isso, podemos abrir src/main.rs e criar nosso plugin.
 
 ```rust
 use nu_errors::ShellError;
@@ -101,9 +101,9 @@ fn main() {
 }
 ```
 
-There are a few moving parts here, so let's break them down one by one.
+Existe bastante código até aqui, então vamos verificar cada trecho separadamente.
 
-First off, let's look at main:
+Primeiramente, vamos olhar o main:
 
 ```rust
 fn main() {
@@ -111,9 +111,9 @@ fn main() {
 }
 ```
 
-In main, we just call a single function `serve_plugin`. This will do the work of calling into out plugin, handling the JSON serialization/deserialization, and sending values and errors back to Nu for us.  To start it up, we pass it something that implements the `Plugin` trait.
+No main, simplesmente chamamos uma única função `serve_plugin`. Isso vai fazer o trabalho de chamar o plugin, lidando com a serialização/desserialização do JSON, e enviando valores e erros de volta para o Nu. Para iniciá-lo, passamos  algo que implementa a trait `Plugin`.
 
-Next, above main, is this implementation of the `Plugin` trait for our particular plugin.  Here, we'll implement the Plugin trait for our type, Len, which we'll see more of soon.  Let's take a look at how we implement this trait:
+Em seguida, acima do main, está a implementação da trait `Plugin` para o nosso plugin em particular. Aqui, vamos implementar a trait Plugin para o nosso tipo, Len, que veremos em breve. Vamos ver como implementamos essa trait:
 
 ```rust
 impl Plugin for Len {
@@ -131,14 +131,14 @@ impl Plugin for Len {
 }
 ```
 
-The two most important parts of this implementation are the `config` part, which is run by Nu when it first starts up. This tells Nu the basic information about the plugin: its name, the parameters it takes, the description, and what kind of plugin it is.
-Here, we tell Nu that the name is "len", give it a basic description for `help` to display and we are a filter plugin (rather than a sink plugin).
+As duas partes mais importantes dessa implementação  são a parte de `config`, que é executada pelo Nu quando se inicia pela primeira vez. Isso informa ao Nu as informações básicas sobre o plugin: nome, parâmetros recebidos, descrição e qual o tipo do plugin.
+Aqui, informamos ao Nu que o nome é "len", damos uma básica descrição de `ajuda` para mostrar e que somos um plugin de filtro (ao invés de um plugin de saída).
 
-Next, in the `filter` implementation, we describe how to do work as values flow into this plugin.  Here, we receive one value (a `Value`) at a time.
-We also return either a Vec of values or an error.
-Return a vec instead of a single value allows us to remove values, or add new ones, in addition to working with the single value coming in.
+Em seguida, na implementação do `filter`, descrevemos como as informações são processadas com o fluxo de dados neste plugin. Aqui, recebemos um valor (um `Value`) de cada vez.
+Também retornamos ou um Vec de valores ou um erro.
+Retornar um vec ao invés de um único valor nos permite remover valores, ou adicionar outros, além de trabalhar com o único valor recebido.
   
-Because the `begin_filter` doesn't do anything, we can remove it.  This would make the above:
+Já que o `begin_filter` não faz nada, podemos remove-lo. Isso simplificaria o código acima:
 
 ```rust
 impl Plugin for Len {
@@ -152,7 +152,7 @@ impl Plugin for Len {
 }
 ```
 
-If that's the case, why have a `begin_filter`?  Let's look at the signature of `begin_filter` a little closer:
+Se esse é o caso, por que temos um `begin_filter`? Vamos ver a assinatura do `begin_filter` mais próximo:
 
 ```rust
 fn begin_filter(&mut self, _: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
@@ -160,9 +160,9 @@ fn begin_filter(&mut self, _: CallInfo) -> Result<Vec<ReturnValue>, ShellError> 
 }
 ```
 
-Our `Len` command doesn't require any parameters, but if it did this is where we'd get them. From here, we could configure our filter, and then use that with each step in of the `filter` command over the input.
+Nosso comando `Len` não requer nenhum parâmetro, mas caso precisasse esse seria o local para obtê-los. A partir daqui, podemos configurar nosso filtro, e então usar isso com cada passo do comando `filter` sobre a entrada.
 
-Next, let's look at `Len` itself to see what it's doing:
+Vamos verificar o próprio `Len` para ver o que ele está fazendo:
 
 ```rust
 struct Len;
@@ -188,9 +188,9 @@ impl Len {
 }
 ```
 
-We create a very simple `Len`, in fact, it has no structure at all. Instead, it's just a placeholder that will let us implement the plugin.
+Criamos um `Len` muito simples, de fato, que não tem nenhuma estrutura. Ao invés disso é apenas um placeholder que vai permitir a implementação do plugin.
 
-From here, we create two methods:
+Daqui, criamos dois métodos:
 
 ```rust
 impl Len {
@@ -201,7 +201,7 @@ impl Len {
 }
 ```
 
-The first method is optional, it's just a convenient way to create a new value of the `Len` type.  The real work is done in the second method:
+O primeiro método é opcional: é apenas uma maneira conveniente de criar um novo valor do tipo `Len`. O verdadeiro trabalho é realizado no segundo método:
 
 ```rust
 impl Len {
@@ -223,11 +223,11 @@ impl Len {
 }
 ```
 
-This method will act over each element in the pipeline as it flows into our plugin.  For our plugin, we really only care about strings so that we can return the length of them.
+Esse método age sobre cada elemento no pipeline que é recebido pelo nosso plugin. Para o nosso plugin, nos preocupamos apenas com strings para poder retornar o seu tamanho.
 
-We use Rust's pattern matching to check the type of the Value coming in, and then operate with it if it's a string.  The value is a Tagged<Value> so it carries with it where the value came from.  If the value isn't a string, we give an error and let the user know where the value came from that is causing the problem.  (Note, if we had wanted to also put an error underline under the command name, we could get the `name_span` from the CallInfo given to `begin_filter`)
-    
-Lastly, let's look at the top of the file:
+Usamos o pattern matching de Rust para verificar o tipo do Value recebido, e entã poderando com ele caso seja uma string. O valor é um Tagged<Value>, então ele armazena com ele de onde o valor surgiu. Se o valor não é um string, retornamos um erro e deixamos o usuário saber de onde veio o valor que está causando o problema. (Note que se quisessemos colocar um erro abaixo do nome do nome do comando, asta basta usar o `name_span` do CallInfo informado no `begin_filter`)
+
+Por último, vamos ver o começo do arquivo:
 
 ```rust
 use nu_errors::ShellError;
@@ -237,16 +237,16 @@ use nu_protocol::{
 };
 ```
 
-Here we import everything we need -- types and functions -- to be able to create our plugin.
+Aqui importamos tudo o que precisamos -- tipos e funções -- para ser possível criar nosso plugin.
 
-Once we have finished our plugin, to use it all we need to do is install it.
+Assim que acabarmos nosso plugin só precisamos instalá-lo para usá-lo.
 
 ```
 > cargo install --path .
 ```
 
-Once `nu` starts up, it will discover it and register it as a command.
-If you're already running `nu` during the installation process of your plugin, ensure you restart `nu` so it can load and register your plugin.
+Assim que o `nu` iniciar, vai descobrir o plugin e registrá-lo como um comando.
+Se você já estiver executando o `nu` durante o processo de instalação do seu plugin, tenha certeza de que você reiniciou o `nu` para que possa carregar e registrar seu plugin.
 
 ```
 > nu
@@ -262,11 +262,11 @@ flags:
   -h, --help: Display this help message
 ```
 
-## Creating a plugin (in Python)
+## Criando um plugin (em Python)
 
-We can also create plugins in other programming languages. In this section, we'll write the same `len` plugin in Python.
+Podemos também criar plugins em outras linguagens de programação. Nessa seção, vamos escrever o mesmo plugin `len` em Python.
 
-First, let's look at the full plugin:
+Primeiramente, vamos verificar o plugin completo:
 
 ```python
 #!/usr/bin/python3
@@ -308,9 +308,9 @@ for line in fileinput.input():
         break
 ```
 
-Note: there are ways to make the python more robust, but here we've left it simple to help with explanations.
+Nota: existem maneiras de tornar Python mais robusto, mas aqui deixamos de maneira simples para ajudar com explicações.
 
-Let's look at how this plugin works, from the bottom to the top:
+Vamos verificar como o plugin funciona, de baixa para cima:
 
 ```python
 for line in fileinput.input():
@@ -332,7 +332,7 @@ for line in fileinput.input():
         break
 ```
 
-For this plugin, we have to serve to basic roles: responding to a request for the plugin configuration and doing the actual filtering. This code acts as our main loop, responding to messages from Nu by doing some work and then returning a response. Each JSON message is sent to the plugin on a single line, so we need only to read the line and then parse the json it contains.
+Para esse plugin, temos que For this plugin, we have to serve to basic roles: responding to a request for the plugin configuration and doing the actual filtering. This code acts as our main loop, responding to messages from Nu by doing some work and then returning a response. Each JSON message is sent to the plugin on a single line, so we need only to read the line and then parse the json it contains.
 
 From there, we look at what method is being invoked. For this plugin, there are four methods we care about: config, begin_filter, filter, and end_filter.  When we're sent a 'config' request, we respond with the signature of this plugin, which is a bit of information to tell Nu how the command should be called. Once sent, we break out of the loop so the plugin can exit and be later called when filtering begins.
 
@@ -383,9 +383,8 @@ Just change the first line into:
 
 and you are good to go.
 
-## Creating a plugin (in C#)
+## Criando um plugin (em C#)
 
-You can learn about creating a Nu plugin with C# here:
+Você pode aprender mais sobre criar um plugin de Nu com C# aqui:
 
 * .Net Core nu-plugin-lib: (https://github.com/myty/nu-plugin-lib)
-
