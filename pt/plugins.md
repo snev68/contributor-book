@@ -332,11 +332,11 @@ for line in fileinput.input():
         break
 ```
 
-Para esse plugin, temos que For this plugin, we have to serve to basic roles: responding to a request for the plugin configuration and doing the actual filtering. This code acts as our main loop, responding to messages from Nu by doing some work and then returning a response. Each JSON message is sent to the plugin on a single line, so we need only to read the line and then parse the json it contains.
+Para esse plugin, temos que servir a função básica: responder ao request da configuração do plugin a realizar o filtro. Esse código age como o loop principal, respondendo as mensagens do Nu realizando algum trabalho e então retornando uma resposta. Cada mensagem JSON é enviada para o plugin em uma única linha, então é necessário apenas ler a linha e realizar a interpretação do JSON contido.
 
-From there, we look at what method is being invoked. For this plugin, there are four methods we care about: config, begin_filter, filter, and end_filter.  When we're sent a 'config' request, we respond with the signature of this plugin, which is a bit of information to tell Nu how the command should be called. Once sent, we break out of the loop so the plugin can exit and be later called when filtering begins.
+A partir disso, vemos qual método é invocado. Para esse plugin, existem quatro métodos que nos preocupamos: config, begin_filter, filter, e end_filter. Quando recebemos um request do tipo 'config', respondemos com a assinatura desse plugin, que é um pedaço de informação dizendo ao Nu como o comando deve ser chamado. Assim que for enviado, saímos do loop para que o plugin possa encerrar e ser invocado novamente quando o filtro iniciar.
 
-The other three methods -- begin_filter, filter, and end_filter -- all work together to do the work of filtering the data coming in. As this plugin will work 1-to-1 with each bit of data, turning strings into their string lengths, we do most of our work in the `filter` method. The 'end_filter' method here tells us it's time for the plugin to shut down, so we go ahead and break out of the loop.
+Os outros três métodos -- begin_filter, filter, e end_filter -- trabalham todos juntos para filtrar os dados recebidos. Como esse plugin vai trabalhar separadamente com cada pedaço de dado, transformando strings nos seus respectivos tamanhos, fazemos a maior parte do nosso trabalho no método `filter`. O método 'end_filter' é usado para encerrar o plugin,  então usamos ele para sair do loop.
 
 ```python
 def get_length(string_value):
@@ -347,9 +347,9 @@ def get_length(string_value):
     return int_value
 ```
 
-The work of filtering is doing by the `get_length` function. Here, we assume we're given strings (we could make this more robust in the future and return errors if we were not), and then we extract the string we're given. From there, we measure the length of the string and create a new `Int` value for that length.
+A filtragem é realizada pela função `get_length`. Aqui, assumimos que estamos recebendo strings (podemos fazer esse método mais robusto futuramente e retornar um erro caso o parâmetro não seja uma string), e então extraímos a string recebida. A partir disso, medimos o tamanho da string e criamos um novo `Int` para esse tamanho.
 
-Finally, we use the same item we were given and replace the payload with this new Int. We do this to reuse the metadata that was passed to us with the string, though this is an optional step. We could have instead opted to create new metadata and passed that out instead.
+Finalmente, usamos o mesmo item recebido e o substituimos o payload com esse novo Int. Fazemos isso para reutilizar os metadados que passamos junto com a string recebida, apesar de isso ser um passo opcional. Poderíamos ter optado por criar novos metadados e passá-los como resposta.
 
 ```python
 def print_good_response(response):
@@ -358,7 +358,7 @@ def print_good_response(response):
     sys.stdout.flush()
 ```
 
-Each response from the plugin back to Nu is also a json message that is sent on a single line. We convert the response to json and send it out with this helper function.
+Cada resposta do plugin para o Nu é também uma mensagem em JSON que é enviada em uma única linha. Convertemos essa resposta para JSON e enviamos com essa função auxiliar.
 
 ```python
 import json
@@ -366,22 +366,22 @@ import fileinput
 import sys
 ```
 
-All of this takes a few imports to accomplish, so we make sure to include them.
+Tudo isso requer alguns imports para suceder, então vamos ter certeza de incluí-los.
 
 ```python
 #!/usr/bin/python3
 ```
 
-Finally, to make it easier to run our Python, we make this file executable (using something like `chmod +x nu_plugin_len`) and add the path to our python at the top. This trick works for Unix-based platforms, for Windows we would need to create an .exe or .bat file that would invoke the python code for us.
+Finalmente, para facilitar a execução de Python, torne esse arquivo executável (usando algo como `chmod +x nu_plugin_len`) e adicione o caminho para o nosso python no topo. Esse truque funciona para plataformas baseadas em Unix, mas para Windows vamos precisar criar um .exe ou .bat que vai invocar o python para nós.
 
-We are using Python 3 because Python 2 will not be maintained past 2020. However script works accordingly with Python 2 and with Python 3.
-Just change the first line into: 
+Utilizamos Python 3 pois Python 2 não vai mais ser mantido após 2020. Entretanto, scripts funcionam em ambas as versões.
+Apenas mude a primeira linha da seguinte forma:
 
 ```python
 #!/usr/bin/python
 ```
 
-and you are good to go.
+e você já pode utilizar.
 
 ## Criando um plugin (em C#)
 
