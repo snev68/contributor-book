@@ -602,10 +602,18 @@ section {
   display: none;
 }
 
+#list_pt {
+  display: none;
+}
+
 #list_en.open {
   display: block;
 }
 
 #list_es.open {
+  display: block;
+}
+
+#list_pt.open {
   display: block;
 }
