@@ -2,22 +2,22 @@
 layout: content
 title: Shells
 prev: Plugins
-next: END
-link_prev: /en/plugins.html
+next: FIM
+link_prev: /pt/plugins.html
 link_next: /
 ---
 
-Perhaps a bit unique to Nu is the concept of `shells`, though the idea of working in multiple places at the same time in a shell is fairly common (via pushd/popd, screen, and more). What perhaps makes Nu a little different is that its `shells` concept is both multiple platform and it works both on the filesystem and inside of values.
+Talvez um conceito único de Nu seja o de `shells`,  apesar de a ideia de trabalhar em diversos lugares ao mesmo tempo em um shell é bem comum (via pushd/popd, telas, e mais). O que talvez torne o Nu um pouco diferente é que o seu conceito de `shells` é de ambas plataformas e funciona tanto no sistema de arquivos quanto dentro de valores.
 
-**Note:** The concept of a Value Shell is one of the many open design points of Nu and is subject to change in the future.
+**Nota:** O conceito de um Value Shell é um de muitos fatores de design abertos e está sujeito a mudanças no futuro.
 
-A **Shell** is a filesystem-like interface that describes a set of common file operations and how to perform them, including: `cd`, `ls`, `mkdir`, `rm`, `cp`, and `mv`. Not all shell types support all file operations, but the file operations attempt to describe much of what a shell would want to perform.
+Um  **Shell** é uma interface semelhante a um sistema de arquivos que descreve um conjunto de operações de arquivos e como operá-los, incluindo: `cd`, `ls`, `mkdir`, `rm`, `cp`, e `mv`. Nem todos os tipos de shells suportam todas as operações de arquivos, mas as operações de arquivos servem para tentar descrever o que um shell deveria fazer.
 
-The two types of Shells currently supported are FilesystemShell and ValueShell, though other shells have been discussed.
+Os dois tipos de shell atualmente disponíveis são FilesystemShell and ValueShell, mas outros tipos de shells já foram discutidos.
 
 ## Filesystem Shell
 
-The filesystem shell is the shell that works directly with a filesystem and a corresponding paths. By default, Nu opens with a single filesystem shell in the current working directory.
+O filesystem shell é um shell que trabalha diretamente com o sistema de arquivos e um arquivo correspondente. Por padrão, Nu inicia com um único filesystem shell no diretório atual.
 
 ```
 > shells
@@ -28,7 +28,7 @@ The filesystem shell is the shell that works directly with a filesystem and a co
 ━━━┷━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━
 ```
 
-We can add a new filesystem shell to this list by using the `enter` command. This will add a new shell+path combination to our ring buffer of shells.
+Podemos adicionar mais um filesystem shell para essa lista usando o comando `enter`. Isso vai adicionar uma nova combinação shell+path para o nosso buffer circular de shells.
 
 ```
 > enter Source
@@ -41,17 +41,16 @@ We can add a new filesystem shell to this list by using the `enter` command. Thi
 ━━━┷━━━┷━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-In this way, you can support jumping between working directories.  Note that currently Nu doesn't support jumping between running applications, only working directories.
+Dessa forma, você pode intercalar entre diretórios de trabalho. Note que atualmente o Nu não permite intercalar entre aplicações em execução, apenas diretórios de trabalho.
 
-**Limitations**
+**Limitações**
 
-There are some limitations on the filesystem shell in its current state of development. One such limitation is that you can not easily add multiple new paths to the ring buffer at a time (for example: `enter $it`), as each new addition to the ring buffer will change the current directory. This limitation is not inherent in the design of the ring buffer and a future design may wish to separate `enter` from the changing of the current working directory.
+Existem algumas limitações no filesystem shell no seu estado atual de desenvolvimento. Uma das limitações é que não é simples adicionar múltiplos caminhos no buffer circular de uma só vez (por exemplo: `enter $it`), já que cada adição ao buffer circular vai mudar o diretório atual. Essa limitação não é inerente ao design do buffer circular e em um design futuro seria desejável separar `enter` da mudança de diretório atual.
 
 ## Value Shell
 
-The Value Shell gives you the ability to explore the inside of a structured value by loading a file treating its contents as if it were a filesystem. This allows you to explore this data as one of the shells in the ring buffer.
+O Value Shell da a habilidade de explorar um valor estruturado internamente ao carregar um arquivo e tratando seu conteúdo como se fosse um sistema de arquivos. Isso permite explorar os seus dados como um dos shells no buffer circular.
 
-The current implementation of the Value Shell is limited to the read-only subset of file operations, namely: `cd` and `ls`. Future designs may wish to explore this further, but there are open design questions around mutating an `enter`ed file and how the rest of the environment observes these changes (what happens if you enter the file being used by `config`?)
+A implementação atual do Value Shell é limitada ao sub-conjunto de operações de leitura de operações de arquivo, isto é: `cd` e `ls`. Em designs futuros seria interessante expandir isso, mas existem perguntas abertas sobre alterar um arquivo aberto com `enter` e como o resto do ambiente observa essas mudanças (o que acontece se você usar enter no arquivo sendo usado pelo `config`?)
 
-In a Value Shell, the `cd` command changes the path that is being observed as the "current working directory" in the object, but in actuality is the field path.  This means that the path "/abc/def" is the path "abc.def" outside of the Value Shell. 
-
+Em um Value Shell, o comando `cd`muda o caminho sendo observado como o "diretório atual" no objeto, mas na verdade é o caminho de campo. Isso significa que o caminho "/abc/def" é o caminho "abc.def" fora do Value Shell.

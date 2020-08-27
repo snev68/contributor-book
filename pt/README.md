@@ -1,14 +1,14 @@
-# Nushell Contributor Book
+# Livro de Contribuição do Nushell
 
-The goals of this book are to help developers understand how Nu is designed and developed, to make it easier to jump in and contribute.
+Os objetivos desse livro são ajudar os desenvolvedores a entender como Nu é projetado e desenvolvido e facilitar o inicio das contribuições.
 
-The current draft includes:
+O esboço atual incluí:
 
-* [Introduction](introduction.md) - An introduction to the contributor book
-* [Philosophy](philosophy.md) - The core design philosophy
-* [Values](values.md) - The values (data types)
-* [Commands](commands.md) - How commands work
+* [Introdução](introdução.md) - Uma introdução ao livro do contribuidor
+* [Filosofia](filosofia.md) - Filosofia central
+* [Valores](valores.md) - Os valores (tipos de dados)
+* [Comandos](comandos.md) - Como os comandos funcionam
 * [Streams](streams.md) - How streams work
-* [Metadata](metadata.md) - The metadata system
-* [Plugins](plugins.md) - How to write plugins
-* [Shells](shells.md) - How the shell system works
+* [Metadados](metadados.md) - O sistema de metadados
+* [Plugins](plugins.md) - Como escrever plugins
+* [Shells](shells.md) - Como o sistema shell funciona
